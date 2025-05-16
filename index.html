@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Just One More</title>
+  <title>Spam the Button Game</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -14,7 +14,7 @@
     h1 {
       font-size: 2.5rem;
     }
-    #score, #time {
+    #score, #time, #result {
       font-size: 1.5rem;
       margin: 10px;
     }
@@ -35,10 +35,11 @@
   </style>
 </head>
 <body>
-  <h1>Keep Clicking</h1>
+  <h1>Spam the Button!</h1>
   <div id="score">Score: 0</div>
   <div id="time">Time Left: 10s</div>
-  <button id="spam-button" onclick="addPoint()">whatever</button>
+  <div id="result"></div>
+  <button id="spam-button" onclick="addPoint()">Click Me!</button>
 
   <script>
     let score = 0;
@@ -47,6 +48,7 @@
 
     const scoreDisplay = document.getElementById("score");
     const timeDisplay = document.getElementById("time");
+    const resultDisplay = document.getElementById("result");
     const button = document.getElementById("spam-button");
 
     function addPoint() {
@@ -54,6 +56,14 @@
         score++;
         scoreDisplay.textContent = "Score: " + score;
       }
+    }
+
+    function getResultMessage(score) {
+      if (score >= 1 && score <= 5) return "ABCDEFU";
+      if (score >= 6 && score <= 10) return "NOTTHATGOOD";
+      if (score >= 11 && score <= 15) return "EHOKAYIG";
+      if (score > 15) return "SIGMASLAY";
+      return "You didn't click at all 😭";
     }
 
     function startTimer() {
@@ -65,8 +75,10 @@
           clearInterval(timer);
           gameActive = false;
           button.disabled = true;
-          timeDisplay.textContent = "Womp Womp so skill issue: " + score;
-          setTimeout(resetGame, 3000);
+          const message = getResultMessage(score);
+          timeDisplay.textContent = "Time's up!";
+          resultDisplay.textContent = `Final Score: ${score} — ${message}`;
+          setTimeout(resetGame, 4000);
         }
       }, 1000);
     }
@@ -78,6 +90,7 @@
       button.disabled = false;
       scoreDisplay.textContent = "Score: 0";
       timeDisplay.textContent = "Time Left: 10s";
+      resultDisplay.textContent = "";
       startTimer();
     }
 

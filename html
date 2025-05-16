@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Button Spam Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #f0f0f0;
+    }
+    h1 {
+      font-size: 2.5rem;
+    }
+    #score, #time {
+      font-size: 1.5rem;
+      margin: 10px;
+    }
+    #spam-button {
+      padding: 20px 40px;
+      font-size: 2rem;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 30px;
+    }
+    #spam-button:disabled {
+      background-color: #888;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <h1>Spam the Button!</h1>
+  <div id="score">Score: 0</div>
+  <div id="time">Time Left: 10s</div>
+  <button id="spam-button" onclick="addPoint()">Click Me!</button>
+
+  <script>
+    let score = 0;
+    let timeLeft = 10;
+    let gameActive = true;
+
+    const scoreDisplay = document.getElementById("score");
+    const timeDisplay = document.getElementById("time");
+    const button = document.getElementById("spam-button");
+
+    function addPoint() {
+      if (gameActive) {
+        score++;
+        scoreDisplay.textContent = "Score: " + score;
+      }
+    }
+
+    function startTimer() {
+      const timer = setInterval(() => {
+        timeLeft--;
+        timeDisplay.textContent = "Time Left: " + timeLeft + "s";
+
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          gameActive = false;
+          button.disabled = true;
+          timeDisplay.textContent = "Time's up! Final Score: " + score;
+          setTimeout(resetGame, 3000);
+        }
+      }, 1000);
+    }
+
+    function resetGame() {
+      score = 0;
+      timeLeft = 10;
+      gameActive = true;
+      button.disabled = false;
+      scoreDisplay.textContent = "Score: 0";
+      timeDisplay.textContent = "Time Left: 10s";
+      startTimer();
+    }
+
+    startTimer();
+  </script>
+</body>
+</html>

@@ -59,11 +59,12 @@
     }
 
     function getResultMessage(score) {
-      if (score >= 1 && score <= 5) return "ABCDEFU";
-      if (score >= 6 && score <= 10) return "NOTTHATGOOD";
-      if (score >= 11 && score <= 15) return "EHOKAYIG";
-      if (score > 15) return "SIGMASLAY";
-      return "You didn't click at all 😭";
+      if (score >= 1 && score <= 20) return "STONE";
+      if (score >= 21 && score <= 35) return "IRON";
+      if (score >= 36 && score <= 50) return "GOLD";
+      if (score >= 51 && score <= 2000) return "DIAMOND";
+      if (score > 2000) return "NETHERITE";
+      return "EHH FUCK YOU";
     }
 
     function startTimer() {

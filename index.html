@@ -1,101 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Spam the Button Game</title>
+  <title>Live Message Board</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 50px;
-      background-color: #f0f0f0;
-    }
-    h1 {
-      font-size: 2.5rem;
-    }
-    #score, #time, #result {
-      font-size: 1.5rem;
-      margin: 10px;
-    }
-    #spam-button {
-      padding: 20px 40px;
-      font-size: 2rem;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      margin-top: 30px;
-    }
-    #spam-button:disabled {
-      background-color: #888;
-      cursor: not-allowed;
-    }
+    body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; }
+    textarea { width: 100%; height: 80px; }
+    button { margin-top: 10px; padding: 10px; }
+    .message { background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 5px; }
   </style>
 </head>
 <body>
-  <h1>Spam the Button!</h1>
-  <div id="score">Score: 0</div>
-  <div id="time">Time Left: 10s</div>
-  <div id="result"></div>
-  <button id="spam-button" onclick="addPoint()">Click Me!</button>
+  <h1>Live Message Board</h1>
+  <textarea id="messageInput" placeholder="Type your message..."></textarea>
+  <br />
+  <button onclick="postMessage()">Post</button>
+
+  <h2>Messages</h2>
+  <div id="messages"></div>
 
   <script>
-    let score = 0;
-    let timeLeft = 10;
-    let gameActive = true;
+    // Your Firebase config here
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
 
-    const scoreDisplay = document.getElementById("score");
-    const timeDisplay = document.getElementById("time");
-    const resultDisplay = document.getElementById("result");
-    const button = document.getElementById("spam-button");
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-    function addPoint() {
-      if (gameActive) {
-        score++;
-        scoreDisplay.textContent = "Score: " + score;
+    function postMessage() {
+      const msg = document.getElementById("messageInput").value;
+      if (msg.trim() !== "") {
+        db.ref("messages").push({ text: msg });
+        document.getElementById("messageInput").value = "";
       }
     }
 
-    function getResultMessage(score) {
-      if (score >= 1 && score <= 20) return "STONE";
-      if (score >= 21 && score <= 35) return "IRON";
-      if (score >= 36 && score <= 50) return "GOLD";
-      if (score >= 51 && score <= 2000) return "DIAMOND";
-      if (score > 2000) return "NETHERITE";
-      return "EHH FUCK YOU";
-    }
-
-    function startTimer() {
-      const timer = setInterval(() => {
-        timeLeft--;
-        timeDisplay.textContent = "Time Left: " + timeLeft + "s";
-
-        if (timeLeft <= 0) {
-          clearInterval(timer);
-          gameActive = false;
-          button.disabled = true;
-          const message = getResultMessage(score);
-          timeDisplay.textContent = "Time's up!";
-          resultDisplay.textContent = `Final Score: ${score} — ${message}`;
-          setTimeout(resetGame, 4000);
-        }
-      }, 1000);
-    }
-
-    function resetGame() {
-      score = 0;
-      timeLeft = 10;
-      gameActive = true;
-      button.disabled = false;
-      scoreDisplay.textContent = "Score: 0";
-      timeDisplay.textContent = "Time Left: 10s";
-      resultDisplay.textContent = "";
-      startTimer();
-    }
-
-    startTimer();
+    db.ref("messages").on("child_added", function(snapshot) {
+      const msg = snapshot.val().text;
+      const div = document.createElement("div");
+      div.className = "message";
+      div.textContent = msg;
+      document.getElementById("messages").appendChild(div);
+    });
   </script>
 </body>
 </html>

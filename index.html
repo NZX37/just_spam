@@ -1,47 +1,21 @@
-import random
-
-def game():
-    points = 300
-    print("Welcome to the Points Game!")
-    print("You start with 300 points.")
-    
-    while points > 0:
-        print(f"\nCurrent points: {points}")
-        print("Choose an option:")
-        print("1: Pay 1 point and get 2 points (net gain: +1)")
-        print("2: Pay 3 points and have a 25% chance to get 20 points, 75% chance to get nothing (net gain: +17 or -3)")
-        print("0: Quit the game")
-        
-        choice = input("Enter your choice (1, 2, or 0): ")
-        
-        if choice == "1":
-            if points >= 1:
-                points -= 1
-                points += 2
-                print("You gained 2 points (net gain: +1).")
-            else:
-                print("Not enough points for this option.")
-        
-        elif choice == "2":
-            if points >= 3:
-                points -= 3
-                if random.random() < 0.25:
-                    points += 20
-                    print("You won the gamble and gained 20 points!")
-                else:
-                    print("You lost the gamble and gained nothing.")
-            else:
-                print("Not enough points for this option.")
-        
-        elif choice == "0":
-            print("You chose to quit the game.")
-            break
-        
-        else:
-            print("Invalid choice. Please select 1, 2, or 0.")
-    
-    print(f"Game over. You ended with {points} points.")
-
-# Run the game
-if __name__ == "__main__":
-    game()
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Static Info</title>
+</head>
+<body>
+<h1>Information and website linkage platform</h1>
+<p>https://www.edmundoptics.com/knowledge-center/application-notes/optics/optics-101-level-1-theoretical-foundations/#:~:text=Light%20is%20a%20type%20of%20electromagnetic
+https://github.com/NUSHDev
+https://www.w3schools.com/html/html_intro.asp
+https://github.com/NZX37/python-deploy
+https://forms.office.com/Pages/DesignPageV2.aspx?analysis=false&prevsubpage=design
+https://www.youtube.com/watch?v=Mv54UfwYYos
+https://www.khanacademy.org/science/ap-college-physics-1/xf557a762645cccc5:kinematics/xf557a762645cccc5:mathematical-models-of-motion/e/freefall-exercise-ap1-graphs-and-concepts
+https://drive.google.com/file/d/18MN5UY4VZu91kV93iTefEV-bMPp2YsLN/view
+https://sgphysicsleague.org/archives/2024/solutions.pdf#Simp
+https://sgphysicsleague.org/data_sheet.pdf
+https://sgphysicsleague.org/problems
+</p>
+</body>
+</html>
